@@ -1,0 +1,353 @@
+{
+  "kind": "build_request",
+  "title": "Multi-role service booking platform (Customer, Staff, Admin) with IVR webhook ingestion, subscriptions, and payment tracking",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a role-based web app with three modules (Customer, Employee/Staff, Admin) accessible from a single React UI, with navigation guarded by role and login state.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Module 1: Customer App",
+          "Module 2: Employee/Staff App",
+          "Module 3: Admin Panel"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App has three top-level areas: Customer, Staff, Admin.",
+        "Unauthenticated users are prompted to sign in before accessing any protected module screens.",
+        "Authenticated users without the required role cannot access protected routes (shows an English access-denied message and a way to return)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement authentication using Internet Identity and add application-level profiles that store a user’s mobile number and role (customer/staff/admin). Require a verified mobile number on the profile before allowing service booking.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "User registration and login with mobile number OTP verification",
+          "Book service with registered mobile number only",
+          "Employee registration and login"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can sign in with Internet Identity.",
+        "After first sign-in, user is prompted to complete a profile including mobile number.",
+        "User cannot create a booking until their profile contains a verified mobile number.",
+        "Backend persists profiles keyed by Principal and returns the current user profile to the frontend."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Provide a mobile-number OTP verification flow that works without external SMS providers by using a development-only OTP mechanism: generate an OTP in the backend and display it in the UI for verification (clearly labeled as a demo/dev mode).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "OTP verification for customer registration and login"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can request an OTP for the entered mobile number.",
+        "Backend generates and stores an OTP with an expiration time and attempt limit.",
+        "UI shows the generated OTP in a clearly labeled 'Demo OTP' area and allows entering it to verify.",
+        "On successful verification, the user profile is marked as mobile-verified; on failure, an English error message is shown."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Create data models and CRUD for subscription plans and service categories (plumber, electrician, electronic repair, pest control, car wash) and expose them in the Customer module for browsing.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "View subscription plans and services (plumber, electrician, electronic repair, pest control, car wash)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes query methods to list service categories and subscription plans.",
+        "Frontend customer screens show a list/grid of the five service categories and a list of subscription plans.",
+        "Admin can create/update/disable service categories and subscription plans; disabled items are not selectable for new bookings."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Implement service booking: customers can book a service by selecting category, entering address details, choosing a preferred time slot, and confirming; booking requires a mobile-verified customer profile.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Book service with registered mobile number only",
+          "Collect customer data for booking services via IVR (name, address, service required, preferred time slot)"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Booking form includes: service category, customer name (prefilled from profile if available), address, preferred time slot, and optional notes.",
+        "Attempting to book without a verified mobile number blocks submission with a clear English message.",
+        "Backend stores the booking with a unique service/booking ID and an initial status (e.g., 'Pending Assignment').",
+        "After submission, the UI displays the created booking ID and details."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement customer booking views: upcoming bookings and service history with status timeline and details per booking.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "View service history and upcoming bookings"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Customer can view two lists: 'Upcoming' and 'History'.",
+        "Each booking shows: booking ID, category, scheduled time, status, and assigned staff (if assigned).",
+        "Clicking a booking opens a details view with full information and status updates."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement Staff module: staff users can view assigned jobs, a schedule view, job details (including customer details/history), and can update job/service status.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "View assigned jobs and scheduling",
+          "Update service status",
+          "Customer details and history"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Staff can see a list of assigned jobs filtered by status and date.",
+        "Staff can open job details showing customer contact (mobile), address, requested service, and customer booking history list.",
+        "Staff can update status through allowed transitions (e.g., Assigned → En Route → In Progress → Completed / Cancelled).",
+        "Status updates are persisted in the backend and reflected on the customer booking details page."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Implement Admin panel features for business control: manage customers, staff, services, subscriptions; allocate bookings to staff; and monitor overall booking pipeline.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Overall business control and monitoring",
+          "Employee management and tracking",
+          "Service management and allocation",
+          "Customer management and feedback"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Admin can list/search customers and staff profiles and view their details.",
+        "Admin can assign/unassign a staff member to a booking.",
+        "Admin can view a dashboard table of bookings by status (counts and quick filters).",
+        "All admin actions require an admin role."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Implement a backend allocation helper that suggests staff for a booking based on availability and (simple) location matching, where location is captured as a text area/zone label in both staff profile and booking address.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Allocate services to employees based on availability and location"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Staff profiles include an 'operating area/zone' text field and an 'availability' flag/schedule indicator.",
+        "Backend provides a method returning suggested staff for a booking, prioritizing same zone and available staff.",
+        "Admin assignment UI can show suggested staff list for a booking."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add Support & Feedback: customers can submit support tickets/feedback; staff can receive ratings/feedback linked to completed bookings; admin can review and export these records.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Support and feedback",
+          "Feedback and ratings",
+          "Customer management and feedback"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Customer can submit a support/feedback form with category, message, and optional booking reference.",
+        "After a booking is completed, customer can leave a rating (e.g., 1–5) and comment for the assigned staff/booking.",
+        "Admin can view lists of tickets and ratings and filter by date/status.",
+        "All user-facing text is in English."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Implement payment tracking and reconciliation records for bookings and subscriptions (without external payment gateway dependency): record payment method (UPI/card/wallet), amount, status, and reconciliation notes; allow admin updates.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Payment tracking and reconciliation",
+          "UPI, cards, wallets payment options",
+          "Recurring payment setup for subscription plans"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend has payment records linked to bookings and/or subscription purchases, including method, amount, status (Pending/Paid/Failed/Refunded), and timestamps.",
+        "Customer can view payment status for each booking and any subscription purchase records.",
+        "Staff can view payment status for assigned jobs (read-only).",
+        "Admin can mark payments as reconciled and add reconciliation notes.",
+        "Recurring subscription is represented as a subscription record with renewal date and status; renewal can be advanced manually by admin (demo mode)."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Add IVR integration endpoints: accept booking creation/updates from an external IVR provider via authenticated HTTP calls to the backend, validate the provided mobile number against registered customers, and create bookings using the IVR flow fields.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Integration with IVR service for automated call reminders and updates",
+          "Collect customer data for booking services via IVR (name, address, service required, preferred time slot)",
+          "Validate customer registration mobile number",
+          "IVR Flow"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes an IVR webhook method to submit: mobile number, name, address, service required, preferred time slot.",
+        "If mobile number is not registered and verified, backend rejects the IVR booking with an explicit error response.",
+        "If valid, backend creates a booking and returns the booking/service ID.",
+        "Backend stores IVR-origin metadata on the booking (e.g., source='IVR')."
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Implement IVR 'call task' queue management in the backend and admin UI: whenever a booking is created/updated, create call tasks for reminders/updates; admin can configure basic IVR settings and mark tasks as completed/failed (no external calling integration required).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Automated call reminders and updates for service bookings",
+          "Integration with IVR service for automated call reminders and updates",
+          "IVR service configuration and management"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend creates call tasks for events such as booking confirmed, booking assigned, schedule reminder, status updates.",
+        "Admin panel includes a basic 'IVR Settings' page for storing provider name, IVR number (text), and webhook secret/token used for authentication.",
+        "Admin can view a list of call tasks with status (Queued/Sent/Failed) and mark them complete/failure with notes.",
+        "Customer and staff UIs show a non-editable 'IVR updates' section on booking details showing recent call task entries."
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Implement basic security measures: role checks on all backend methods, input validation, and at-rest storage patterns suitable for Motoko stable data; ensure sensitive fields (like OTP) are not returned except in the explicitly labeled demo OTP flow.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Security Measures",
+          "Data encryption and secure storage"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All update/mutation methods verify the caller Principal and required role (customer/staff/admin) before executing.",
+        "Mobile number is validated for basic format (length/digits) and normalized consistently.",
+        "OTP values are never returned by default query methods; only the dedicated demo OTP response returns it with clear labeling.",
+        "Backend state is structured to support upgrades (stable-compatible types), without adding a migration file unless required by the template state."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Apply a coherent, distinctive visual theme across the UI (colors, typography, layout) suitable for a service-booking business dashboard + consumer app; avoid blue/purple as dominant colors; ensure all user-facing strings are in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Use English for any user-facing text in the build request."
+        ]
+      },
+      "acceptanceCriteria": [
+        "UI uses a consistent theme (e.g., warm neutrals/greens or charcoal/orange) across Customer/Staff/Admin sections.",
+        "Typography and spacing are consistent across screens; forms and tables are clearly legible.",
+        "All labels, buttons, validation errors, and empty states are in English.",
+        "Theme is applied consistently using Tailwind and existing UI components (without editing immutable UI component sources)."
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Add static generated brand and category imagery as frontend assets and use them in the UI (home/category tiles, admin header). Store assets under frontend/public/assets/generated and reference them directly from the frontend.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All required generated images are present in frontend/public/assets/generated with the specified filenames.",
+        "Customer browsing screens display the category icons.",
+        "App header/login screen displays the logo.",
+        "No backend endpoints are used to serve these images."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must be implemented as a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Frontend must be React + TypeScript with Tailwind and React Query; do not introduce React Native, Flutter, Next.js, or other frameworks.",
+    "Do not edit any files under frontend/src/components/ui or other immutable paths listed in SYSTEM_CONTEXT; compose them instead.",
+    "Authentication must use Internet Identity; do not integrate third-party auth providers.",
+    "Do not integrate external SMS/OTP delivery; OTP must be implemented in a demo/development-only manner within platform constraints.",
+    "Do not integrate Twilio/Exotel directly; IVR integration must be via generic webhook-style backend methods and stored task tracking, without outbound calling.",
+    "No external databases; all persistence must be within the Motoko canister.",
+    "Payment gateway integrations like Razorpay are out of scope for this build; implement payment tracking records and admin reconciliation within the app’s backend."
+  ],
+  "nonGoals": [
+    "Native mobile apps (React Native/Flutter) are not included; deliver a responsive web app.",
+    "Real outbound IVR calling, SMS delivery, push notifications, and real-time websockets are out of scope.",
+    "Full third-party payment processing is out of scope; only internal payment records and subscription renewal representation are required.",
+    "Advanced geolocation/routing (maps, GPS distance calculations) is out of scope; use simple zone-based matching.",
+    "Advanced analytics (charts/BI) beyond basic reporting tables and counts is out of scope."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal wordmark logo with a subtle wrench + lightning bolt motif, warm charcoal and amber palette (servicehub-logo.dim_512x512.png)",
+      "Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-plumber.dim_256x256.png)",
+      "Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-electrician.dim_256x256.png)",
+      "Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-electronics-repair.dim_256x256.png)",
+      "Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-pest-control.dim_256x256.png)",
+      "Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-car-wash.dim_256x256.png)"
+    ],
+    "edits": []
+  }
+}

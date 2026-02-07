@@ -1,0 +1,14 @@
+{
+  "frontend/src/App.tsx": "Main application router with role-based routing for Customer, Staff, and Admin modules, using proper React component naming conventions for hooks.",
+  "frontend/src/components/bookings/BookingStatusTimeline.tsx": "Displays a visual timeline of booking status progression with icons and labels, using Tailwind v3 classes.",
+  "frontend/src/pages/customer/BookServicePage.tsx": "Customer booking form with service category selection, address input, time slot picker, and mobile verification gate, using Tailwind v3 classes.",
+  "frontend/src/pages/admin/IVRSettingsPage.tsx": "Admin page for configuring IVR integration settings including provider, phone number, and webhook authentication token.",
+  "frontend/src/pages/admin/IVRTasksPage.tsx": "Admin page for managing IVR call tasks with status updates and task queue monitoring.",
+  "frontend/src/pages/shared/ProfileSetupPage.tsx": "User profile setup page with name, mobile number, zone, and role selection, using proper AppRole enum values.",
+  "frontend/src/pages/customer/CustomerDashboard.tsx": "Customer dashboard showing service categories, bookings overview, and quick action cards with proper navigation using params.",
+  "frontend/src/pages/customer/MyBookingsPage.tsx": "Customer bookings list page showing upcoming and historical bookings with proper navigation using params.",
+  "frontend/src/pages/staff/StaffDashboard.tsx": "Staff dashboard displaying assigned jobs, today's schedule, and job statistics with proper navigation using params.",
+  "frontend/src/pages/staff/StaffJobsPage.tsx": "Staff jobs list page showing all assigned jobs with details and proper navigation using params.",
+  "frontend/src/pages/staff/JobDetailsPage.tsx": "Staff job details page with customer information, status updates, and IVR task history using proper BookingStatus enum values.",
+  "frontend/src/index.css": "Global CSS file with Tailwind directives and OKLCH color system tokens for light and dark modes with warm amber/charcoal palette."
+}

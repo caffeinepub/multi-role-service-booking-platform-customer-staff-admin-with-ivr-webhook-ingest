@@ -1,0 +1,285 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-role-based-web-app-with-three-modules-customer-employee-staff-admin-accessible-from-a-single-react-ui-with-navigation-guarded-by-role-and-login-state",
+      "featureTitle": "Create a role-based web app with three modules (Customer, Employee/Staff, Admin) accessible from a single React UI, with navigation guarded by role and login state.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AccessDeniedScreen.tsx",
+        "frontend/src/components/layout/AppShell.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-authentication-using-internet-identity-and-add-application-level-profiles-that-store-a-user-s-mobile-number-and-role-customer-staff-admin-require-a-verified-mobile-number-on-the-profile-before-allowing-service-booking",
+      "featureTitle": "Implement authentication using Internet Identity and add application-level profiles that store a user’s mobile number and role (customer/staff/admin). Require a verified mobile number on the profile before allowing service booking.",
+      "files": [
+        "frontend/src/pages/customer/BookServicePage.tsx",
+        "frontend/src/pages/shared/ProfileSetupPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-provide-a-mobile-number-otp-verification-flow-that-works-without-external-sms-providers-by-using-a-development-only-otp-mechanism-generate-an-otp-in-the-backend-and-display-it-in-the-ui-for-verification-clearly-labeled-as-a-demo-dev-mode",
+      "featureTitle": "Provide a mobile-number OTP verification flow that works without external SMS providers by using a development-only OTP mechanism: generate an OTP in the backend and display it in the UI for verification (clearly labeled as a demo/dev mode).",
+      "files": [
+        "frontend/src/components/verification/MobileVerificationCard.tsx",
+        "frontend/src/pages/shared/ProfileSetupPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-data-models-and-crud-for-subscription-plans-and-service-categories-plumber-electrician-electronic-repair-pest-control-car-wash-and-expose-them-in-the-customer-module-for-browsing",
+      "featureTitle": "Create data models and CRUD for subscription plans and service categories (plumber, electrician, electronic repair, pest control, car wash) and expose them in the Customer module for browsing.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/admin/ManageServicesPage.tsx",
+        "frontend/src/pages/customer/CatalogPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-service-booking-customers-can-book-a-service-by-selecting-category-entering-address-details-choosing-a-preferred-time-slot-and-confirming-booking-requires-a-mobile-verified-customer-profile",
+      "featureTitle": "Implement service booking: customers can book a service by selecting category, entering address details, choosing a preferred time slot, and confirming; booking requires a mobile-verified customer profile.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/customer/BookServicePage.tsx",
+        "frontend/src/pages/customer/BookingConfirmationPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-customer-booking-views-upcoming-bookings-and-service-history-with-status-timeline-and-details-per-booking",
+      "featureTitle": "Implement customer booking views: upcoming bookings and service history with status timeline and details per booking.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+        "frontend/src/pages/customer/BookingDetailsPage.tsx",
+        "frontend/src/pages/customer/MyBookingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-staff-module-staff-users-can-view-assigned-jobs-a-schedule-view-job-details-including-customer-details-history-and-can-update-job-service-status",
+      "featureTitle": "Implement Staff module: staff users can view assigned jobs, a schedule view, job details (including customer details/history), and can update job/service status.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/staff/JobDetailsPage.tsx",
+        "frontend/src/pages/staff/StaffJobsPage.tsx",
+        "frontend/src/pages/staff/StaffSchedulePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-admin-panel-features-for-business-control-manage-customers-staff-services-subscriptions-allocate-bookings-to-staff-and-monitor-overall-booking-pipeline",
+      "featureTitle": "Implement Admin panel features for business control: manage customers, staff, services, subscriptions; allocate bookings to staff; and monitor overall booking pipeline.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/admin/AdminDashboardPage.tsx",
+        "frontend/src/pages/admin/BookingAllocationPage.tsx",
+        "frontend/src/pages/admin/UsersPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-support-feedback-customers-can-submit-support-tickets-feedback-staff-can-receive-ratings-feedback-linked-to-completed-bookings-admin-can-review-and-export-these-records",
+      "featureTitle": "Add Support & Feedback: customers can submit support tickets/feedback; staff can receive ratings/feedback linked to completed bookings; admin can review and export these records.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/feedback/LeaveRatingCard.tsx",
+        "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+        "frontend/src/pages/customer/BookingDetailsPage.tsx",
+        "frontend/src/pages/customer/SupportPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-payment-tracking-and-reconciliation-records-for-bookings-and-subscriptions-without-external-payment-gateway-dependency-record-payment-method-upi-card-wallet-amount-status-and-reconciliation-notes-allow-admin-updates",
+      "featureTitle": "Implement payment tracking and reconciliation records for bookings and subscriptions (without external payment gateway dependency): record payment method (UPI/card/wallet), amount, status, and reconciliation notes; allow admin updates.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/pages/admin/PaymentsPage.tsx",
+        "frontend/src/pages/customer/BookingDetailsPage.tsx",
+        "frontend/src/pages/customer/SubscriptionsPage.tsx",
+        "frontend/src/pages/staff/JobDetailsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-ivr-call-task-queue-management-in-the-backend-and-admin-ui-whenever-a-booking-is-created-updated-create-call-tasks-for-reminders-updates-admin-can-configure-basic-ivr-settings-and-mark-tasks-as-completed-failed-no-external-calling-integration-required",
+      "featureTitle": "Implement IVR 'call task' queue management in the backend and admin UI: whenever a booking is created/updated, create call tasks for reminders/updates; admin can configure basic IVR settings and mark tasks as completed/failed (no external calling integration required).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+        "frontend/src/pages/admin/IVRSettingsPage.tsx",
+        "frontend/src/pages/admin/IVRTasksPage.tsx",
+        "frontend/src/pages/customer/BookingDetailsPage.tsx",
+        "frontend/src/pages/staff/JobDetailsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-coherent-distinctive-visual-theme-across-the-ui-colors-typography-layout-suitable-for-a-service-booking-business-dashboard-consumer-app-avoid-blue-purple-as-dominant-colors-ensure-all-user-facing-strings-are-in-english",
+      "featureTitle": "Apply a coherent, distinctive visual theme across the UI (colors, typography, layout) suitable for a service-booking business dashboard + consumer app; avoid blue/purple as dominant colors; ensure all user-facing strings are in English.",
+      "files": [
+        "frontend/src/components/layout/AppShell.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-static-generated-brand-and-category-imagery-as-frontend-assets-and-use-them-in-the-ui-home-category-tiles-admin-header-store-assets-under-frontend-public-assets-generated-and-reference-them-directly-from-the-frontend",
+      "featureTitle": "Add static generated brand and category imagery as frontend assets and use them in the UI (home/category tiles, admin header). Store assets under frontend/public/assets/generated and reference them directly from the frontend.",
+      "files": [
+        "frontend/src/components/layout/AppShell.tsx",
+        "frontend/src/pages/customer/CatalogPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-16"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

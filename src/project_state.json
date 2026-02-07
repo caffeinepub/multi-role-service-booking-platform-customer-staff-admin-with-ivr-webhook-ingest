@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Multi-module service booking platform with Customer app, Employee/Staff app, Admin panel, backend, IVR booking/reminder integration, and payment/subscription support.",
+  "architectural_notes": [
+    "System consists of Customer app, Employee/Staff app, Admin panel, Backend, and IVR integration.",
+    "OTP-based authentication using mobile number for customers (and employee auth required).",
+    "IVR providers considered: Exotel or Twilio; IVR flow validates mobile/subscription and creates bookings.",
+    "Payment gateways considered: Razorpay or Stripe; support recurring payments for subscriptions.",
+    "Push notifications via Firebase Cloud Messaging (FCM).",
+    "Backend tech options listed: Node.js/Express or Django; database options listed: MongoDB or PostgreSQL.",
+    "Security requirements: secure payment gateway integration, data encryption and secure storage."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal wordmark logo with a subtle wrench + lightning bolt motif, warm charcoal and amber palette (servicehub-logo.dim_512x512.png)\n- Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-plumber.dim_256x256.png)\n- Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-electrician.dim_256x256.png)\n- Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-electronics-repair.dim_256x256.png)\n- Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-pest-control.dim_256x256.png)\n- Five simple filled line icons, one per category: plumber, electrician, electronic repair, pest control, car wash; consistent style and palette (cat-car-wash.dim_256x256.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-role-based-web-app-with-three-modules-customer-employee-staff-admin-accessible-from-a-single-react-ui-with-navigation-guarded-by-role-and-login-state",
+      "title": "Create a role-based web app with three modules (Customer, Employee/Staff, Admin) accessible from a single React UI, with navigation guarded by role and login state.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-authentication-using-internet-identity-and-add-application-level-profiles-that-store-a-user-s-mobile-number-and-role-customer-staff-admin-require-a-verified-mobile-number-on-the-profile-before-allowing-service-booking",
+      "title": "Implement authentication using Internet Identity and add application-level profiles that store a user’s mobile number and role (customer/staff/admin). Require a verified mobile number on the profile before allowing service booking.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-mobile-number-otp-verification-flow-that-works-without-external-sms-providers-by-using-a-development-only-otp-mechanism-generate-an-otp-in-the-backend-and-display-it-in-the-ui-for-verification-clearly-labeled-as-a-demo-dev-mode",
+      "title": "Provide a mobile-number OTP verification flow that works without external SMS providers by using a development-only OTP mechanism: generate an OTP in the backend and display it in the UI for verification (clearly labeled as a demo/dev mode).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-data-models-and-crud-for-subscription-plans-and-service-categories-plumber-electrician-electronic-repair-pest-control-car-wash-and-expose-them-in-the-customer-module-for-browsing",
+      "title": "Create data models and CRUD for subscription plans and service categories (plumber, electrician, electronic repair, pest control, car wash) and expose them in the Customer module for browsing.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-service-booking-customers-can-book-a-service-by-selecting-category-entering-address-details-choosing-a-preferred-time-slot-and-confirming-booking-requires-a-mobile-verified-customer-profile",
+      "title": "Implement service booking: customers can book a service by selecting category, entering address details, choosing a preferred time slot, and confirming; booking requires a mobile-verified customer profile.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-customer-booking-views-upcoming-bookings-and-service-history-with-status-timeline-and-details-per-booking",
+      "title": "Implement customer booking views: upcoming bookings and service history with status timeline and details per booking.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-staff-module-staff-users-can-view-assigned-jobs-a-schedule-view-job-details-including-customer-details-history-and-can-update-job-service-status",
+      "title": "Implement Staff module: staff users can view assigned jobs, a schedule view, job details (including customer details/history), and can update job/service status.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-admin-panel-features-for-business-control-manage-customers-staff-services-subscriptions-allocate-bookings-to-staff-and-monitor-overall-booking-pipeline",
+      "title": "Implement Admin panel features for business control: manage customers, staff, services, subscriptions; allocate bookings to staff; and monitor overall booking pipeline.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-support-feedback-customers-can-submit-support-tickets-feedback-staff-can-receive-ratings-feedback-linked-to-completed-bookings-admin-can-review-and-export-these-records",
+      "title": "Add Support & Feedback: customers can submit support tickets/feedback; staff can receive ratings/feedback linked to completed bookings; admin can review and export these records.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-payment-tracking-and-reconciliation-records-for-bookings-and-subscriptions-without-external-payment-gateway-dependency-record-payment-method-upi-card-wallet-amount-status-and-reconciliation-notes-allow-admin-updates",
+      "title": "Implement payment tracking and reconciliation records for bookings and subscriptions (without external payment gateway dependency): record payment method (UPI/card/wallet), amount, status, and reconciliation notes; allow admin updates.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-ivr-call-task-queue-management-in-the-backend-and-admin-ui-whenever-a-booking-is-created-updated-create-call-tasks-for-reminders-updates-admin-can-configure-basic-ivr-settings-and-mark-tasks-as-completed-failed-no-external-calling-integration-required",
+      "title": "Implement IVR 'call task' queue management in the backend and admin UI: whenever a booking is created/updated, create call tasks for reminders/updates; admin can configure basic IVR settings and mark tasks as completed/failed (no external calling integration required).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-distinctive-visual-theme-across-the-ui-colors-typography-layout-suitable-for-a-service-booking-business-dashboard-consumer-app-avoid-blue-purple-as-dominant-colors-ensure-all-user-facing-strings-are-in-english",
+      "title": "Apply a coherent, distinctive visual theme across the UI (colors, typography, layout) suitable for a service-booking business dashboard + consumer app; avoid blue/purple as dominant colors; ensure all user-facing strings are in English.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-static-generated-brand-and-category-imagery-as-frontend-assets-and-use-them-in-the-ui-home-category-tiles-admin-header-store-assets-under-frontend-public-assets-generated-and-reference-them-directly-from-the-frontend",
+      "title": "Add static generated brand and category imagery as frontend assets and use them in the UI (home/category tiles, admin header). Store assets under frontend/public/assets/generated and reference them directly from the frontend.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Customer app: OTP-based mobile registration/login and account access control",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Customer app: Browse subscription plans and service categories (plumber/electrician/electronics repair/pest control/car wash)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Customer app: Book services using registered mobile number; view history and upcoming bookings",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Customer app: Support & feedback module",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Employee/Staff app: Registration/login, job assignments & scheduling, update service status, view customer details/history",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Employee/Staff app: Payment tracking/reconciliation plus feedback & ratings",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Admin panel: Employee/service/customer management, allocation, payment reconciliation, reporting/analytics, IVR configuration",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "IVR integration: Collect booking data via IVR, validate customer mobile/subscription, automated reminders/updates, sync with apps/backend",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Backend: Store IVR/app data, validate subscription, allocate jobs by availability/location, status updates & notifications",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Payments: UPI/cards/wallets support, recurring subscriptions, payment tracking and reconciliation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Implement a backend allocation helper that suggests staff for a booking based on availability and (simple) location matching, where location is captured as a text area/zone label in both staff profile and booking address.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Add IVR integration endpoints: accept booking creation/updates from an external IVR provider via authenticated HTTP calls to the backend, validate the provided mobile number against registered customers, and create bookings using the IVR flow fields.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Implement basic security measures: role checks on all backend methods, input validation, and at-rest storage patterns suitable for Motoko stable data; ensure sensitive fields (like OTP) are not returned except in the explicitly labeled demo OTP flow.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Multi-role service booking platform (Customer, Staff, Admin) with IVR webhook ingestion, subscriptions, and payment tracking",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

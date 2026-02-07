@@ -1,0 +1,501 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "ServiceHub multi-role booking UI (Customer/Staff/Admin) with II auth, demo OTP, bookings, IVR tasks, and payment tracking",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add a single React UI with guarded navigation for Customer, Staff, and Admin areas based on login state and role.",
+      "acceptanceCriteria": [
+        "App has three top-level areas: Customer, Staff, Admin.",
+        "Unauthenticated users are prompted to sign in before accessing any protected module screens.",
+        "Authenticated users without the required role cannot access protected routes (shows an English access-denied message and a way to return)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the app shell and route structure for Customer/Staff/Admin modules using guarded routes based on authentication state and role. Use the selected authorization component patterns for role-based access control in the UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/routes/routes.tsx",
+          "operation": "create",
+          "description": "Define route constants and route config for the three module areas plus shared screens (sign-in, access denied, profile setup), ensuring module screens are not reachable without passing guards."
+        },
+        {
+          "path": "frontend/src/components/auth/ProtectedRoute.tsx",
+          "operation": "create",
+          "description": "Add a reusable route guard that checks Internet Identity login state and required app role, and renders an English access-denied view with a back/navigation option when unauthorized. Use the selected authorization component patterns for guard behavior; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "operation": "create",
+          "description": "Create a shared Access Denied screen with English copy and a navigation path back to a safe module landing page."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "create",
+          "description": "Create a shared layout with top navigation that exposes module links (Customer/Staff/Admin) conditionally based on role and authentication state."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement Internet Identity authentication and app-level profiles with mobile number + role, requiring mobile verification before booking.",
+      "acceptanceCriteria": [
+        "Users can sign in with Internet Identity.",
+        "After first sign-in, user is prompted to complete a profile including mobile number.",
+        "User cannot create a booking until their profile contains a verified mobile number.",
+        "Backend persists profiles keyed by Principal and returns the current user profile to the frontend."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/LoginPanel.tsx",
+          "operation": "create",
+          "description": "Create a sign-in panel using the existing Internet Identity hook and show authenticated state, logout, and next-step guidance. Use the selected authorization component guidance for login/logout + cache clearing; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "create",
+          "description": "Add React Query hooks to fetch and cache the caller profile and to save profile updates, with loading states designed to avoid profile-setup flash. Use the selected authorization component guidance for profile querying patterns; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useUserRole.ts",
+          "operation": "create",
+          "description": "Add a hook that fetches the caller role from the backend and maps it to UI access rules (customer/staff/admin) for route guards and navigation."
+        },
+        {
+          "path": "frontend/src/pages/shared/ProfileSetupPage.tsx",
+          "operation": "create",
+          "description": "Create a profile setup/edit page to collect name, mobile number, role (as allowed by the app), and zone, and show current verification status in English."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookServicePage.tsx",
+          "operation": "create",
+          "description": "Implement booking entry UI that blocks submission when the current profile is not mobile-verified, showing a clear English message and linking to verification/profile completion."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add a demo/development-only OTP flow that displays the generated OTP in the UI and verifies it.",
+      "acceptanceCriteria": [
+        "User can request an OTP for the entered mobile number.",
+        "Backend generates and stores an OTP with an expiration time and attempt limit.",
+        "UI shows the generated OTP in a clearly labeled 'Demo OTP' area and allows entering it to verify.",
+        "On successful verification, the user profile is marked as mobile-verified; on failure, an English error message is shown."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/verification/MobileVerificationCard.tsx",
+          "operation": "create",
+          "description": "Create a demo OTP UI card that requests an OTP for a mobile number, displays a clearly labeled 'Demo OTP' area (development mode), and submits the OTP for verification with English success/error messaging."
+        },
+        {
+          "path": "frontend/src/hooks/useMobileVerification.ts",
+          "operation": "create",
+          "description": "Add React Query mutations for starting verification and completing verification, and invalidate/refetch the current user profile on success."
+        },
+        {
+          "path": "frontend/src/pages/shared/ProfileSetupPage.tsx",
+          "operation": "modify",
+          "description": "Wire the demo OTP verification card into the profile page, ensuring users can verify their saved mobile number from the same flow."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Expose service categories and subscription plans for customer browsing, and provide Admin UI to manage them (create/update/disable).",
+      "acceptanceCriteria": [
+        "Backend exposes query methods to list service categories and subscription plans.",
+        "Frontend customer screens show a list/grid of the five service categories and a list of subscription plans.",
+        "Admin can create/update/disable service categories and subscription plans; disabled items are not selectable for new bookings."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useCatalog.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for fetching service categories and subscription plans and exposing loading/empty/error states for English UI rendering."
+        },
+        {
+          "path": "frontend/src/pages/customer/CatalogPage.tsx",
+          "operation": "create",
+          "description": "Create a customer browsing page that renders the five service categories as tiles (with icons) and lists subscription plans. Ensure disabled items are not shown as selectable for new bookings."
+        },
+        {
+          "path": "frontend/src/pages/admin/ManageServicesPage.tsx",
+          "operation": "create",
+          "description": "Create an admin management page for service categories and subscription plans, including create/update/disable actions and clear English validation/errors. Use shadcn-ui components (forms, dialogs, tables) to compose the UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register routes and navigation entries for the Customer catalog and Admin management screens, ensuring Admin screens are guarded by admin role."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Implement customer service booking flow with category selection, address, preferred time slot, confirmation, and booking ID display, gated by mobile verification.",
+      "acceptanceCriteria": [
+        "Booking form includes: service category, customer name (prefilled from profile if available), address, preferred time slot, and optional notes.",
+        "Attempting to book without a verified mobile number blocks submission with a clear English message.",
+        "Backend stores the booking with a unique service/booking ID and an initial status (e.g., 'Pending Assignment').",
+        "After submission, the UI displays the created booking ID and details."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useBookings.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for creating bookings and fetching the caller’s bookings, with cache invalidation after a create."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookServicePage.tsx",
+          "operation": "modify",
+          "description": "Build the booking form UI: category selection (from catalog), name prefill from profile, address, time slot selection, optional notes, and a confirmation step. Enforce verified-mobile gating with an English blocking message."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookingConfirmationPage.tsx",
+          "operation": "create",
+          "description": "Create a post-submit confirmation screen that displays the created booking ID and key details in English and links to booking details/history."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the booking confirmation page into routing and ensure it is reachable after successful submission."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Add customer booking views for upcoming and history lists plus booking details with status timeline and details.",
+      "acceptanceCriteria": [
+        "Customer can view two lists: 'Upcoming' and 'History'.",
+        "Each booking shows: booking ID, category, scheduled time, status, and assigned staff (if assigned).",
+        "Clicking a booking opens a details view with full information and status updates."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/customer/MyBookingsPage.tsx",
+          "operation": "create",
+          "description": "Create the customer bookings page with two tabs/sections ('Upcoming' and 'History') that lists bookings with ID, category, scheduled time, status, and assigned staff where present."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "operation": "create",
+          "description": "Create a booking details screen that shows full booking info and a status timeline view derived from booking status (with English labels), plus assigned staff if present."
+        },
+        {
+          "path": "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+          "operation": "create",
+          "description": "Create a reusable status timeline component for displaying booking status progression with clear English text."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add routes and navigation links to the customer bookings list and booking details pages."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Implement Staff module with assigned jobs list, schedule view, job details (customer details/history), and status updates.",
+      "acceptanceCriteria": [
+        "Staff can see a list of assigned jobs filtered by status and date.",
+        "Staff can open job details showing customer contact (mobile), address, requested service, and customer booking history list.",
+        "Staff can update status through allowed transitions (e.g., Assigned → En Route → In Progress → Completed / Cancelled).",
+        "Status updates are persisted in the backend and reflected on the customer booking details page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/staff/StaffJobsPage.tsx",
+          "operation": "create",
+          "description": "Create a staff jobs list with filters (status/date) showing assigned bookings relevant to the staff user, and navigation to job details."
+        },
+        {
+          "path": "frontend/src/pages/staff/StaffSchedulePage.tsx",
+          "operation": "create",
+          "description": "Create a simple schedule view (table/list grouped by day/time slot) for staff assigned jobs, using English labels and empty states."
+        },
+        {
+          "path": "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "operation": "create",
+          "description": "Create job details view showing customer contact (mobile), address, service category, and the customer’s booking history list, plus a status update control constrained to allowed transitions."
+        },
+        {
+          "path": "frontend/src/hooks/useStaff.ts",
+          "operation": "create",
+          "description": "Add staff-focused query/mutation hooks to load relevant bookings and submit booking status updates with cache invalidation for both staff and customer booking detail views."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Staff module routes (jobs, schedule, job details) and enforce staff role guards."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Implement Admin panel for managing users, services/subscriptions, assigning staff to bookings, and monitoring booking pipeline.",
+      "acceptanceCriteria": [
+        "Admin can list/search customers and staff profiles and view their details.",
+        "Admin can assign/unassign a staff member to a booking.",
+        "Admin can view a dashboard table of bookings by status (counts and quick filters).",
+        "All admin actions require an admin role."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/admin/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Create an admin dashboard with booking counts by status and a bookings table with quick filters (status), using English table headers/empty states."
+        },
+        {
+          "path": "frontend/src/pages/admin/UsersPage.tsx",
+          "operation": "create",
+          "description": "Create an admin users page to list/search customer and staff profiles and view details, including role and zone fields, with admin-only guard."
+        },
+        {
+          "path": "frontend/src/pages/admin/BookingAllocationPage.tsx",
+          "operation": "create",
+          "description": "Create an admin booking allocation screen that supports assigning/unassigning staff to a booking and highlights any suggested staff list if available in the backend capabilities."
+        },
+        {
+          "path": "frontend/src/hooks/useAdmin.ts",
+          "operation": "create",
+          "description": "Add admin queries/mutations for loading all bookings, loading user profiles for inspection, assigning staff to bookings, and updating user app roles where permitted."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register Admin routes (dashboard, users, allocation, manage services) and ensure all are guarded by admin role."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Add support tickets/feedback submission for customers, ratings for completed bookings, and admin review lists with filters.",
+      "acceptanceCriteria": [
+        "Customer can submit a support/feedback form with category, message, and optional booking reference.",
+        "After a booking is completed, customer can leave a rating (e.g., 1–5) and comment for the assigned staff/booking.",
+        "Admin can view lists of tickets and ratings and filter by date/status.",
+        "All user-facing text is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useSupport.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for creating support tickets and fetching the caller’s tickets (customer) and all tickets (admin) with appropriate caching and invalidation."
+        },
+        {
+          "path": "frontend/src/hooks/useFeedback.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for submitting booking feedback (rating/comment) and fetching all feedback for admin review."
+        },
+        {
+          "path": "frontend/src/pages/customer/SupportPage.tsx",
+          "operation": "create",
+          "description": "Create a customer support/feedback submission page with English form labels and a list of the customer’s submitted tickets."
+        },
+        {
+          "path": "frontend/src/components/feedback/LeaveRatingCard.tsx",
+          "operation": "create",
+          "description": "Create a rating UI component that appears for completed bookings and allows a 1–5 rating plus comment submission with English validation/errors."
+        },
+        {
+          "path": "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+          "operation": "create",
+          "description": "Create an admin review page with two sections/tabs: support tickets and ratings/feedback, including basic filters (date/status where applicable) and English table UI. Use shadcn-ui components (tabs, table, dialog) to compose the UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Integrate the leave-rating UI for completed bookings and ensure all user-facing strings remain in English."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Support pages into Customer and Admin navigation and routing, guarded by appropriate roles."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Implement UI for payment tracking for bookings/subscriptions, staff read-only payment visibility, and admin reconciliation updates.",
+      "acceptanceCriteria": [
+        "Backend has payment records linked to bookings and/or subscription purchases, including method, amount, status (Pending/Paid/Failed/Refunded), and timestamps.",
+        "Customer can view payment status for each booking and any subscription purchase records.",
+        "Staff can view payment status for assigned jobs (read-only).",
+        "Admin can mark payments as reconciled and add reconciliation notes.",
+        "Recurring subscription is represented as a subscription record with renewal date and status; renewal can be advanced manually by admin (demo mode)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/usePayments.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for loading payments (customer/admin) and updating payment status (admin), plus utilities to associate payments with bookings for display."
+        },
+        {
+          "path": "frontend/src/components/payments/PaymentStatusBadge.tsx",
+          "operation": "create",
+          "description": "Create a small reusable badge component to show payment status in English with consistent theme styling."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Show payment status for the booking by associating payment records to the booking ID, and display an English empty state if no payment record exists."
+        },
+        {
+          "path": "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Add read-only payment status visibility for staff on job details (no edit controls)."
+        },
+        {
+          "path": "frontend/src/pages/admin/PaymentsPage.tsx",
+          "operation": "create",
+          "description": "Create an admin payments reconciliation page listing payment records with controls to update status and add reconciliation notes in English (within the available backend capabilities). Use shadcn-ui components (table, select, textarea/dialog) to compose the UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/customer/SubscriptionsPage.tsx",
+          "operation": "create",
+          "description": "Create a customer subscriptions page that lists available subscription plans and any available subscription-related payment records (if present), with clear English demo-mode messaging where functionality is limited by backend capabilities."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add navigation and route wiring for customer subscriptions and admin payments pages with role guards."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Add Admin UI for IVR settings and call task queue management, and show read-only IVR updates on booking details for customers and staff.",
+      "acceptanceCriteria": [
+        "Backend creates call tasks for events such as booking confirmed, booking assigned, schedule reminder, status updates.",
+        "Admin panel includes a basic 'IVR Settings' page for storing provider name, IVR number (text), and webhook secret/token used for authentication.",
+        "Admin can view a list of call tasks with status (Queued/Sent/Failed) and mark them complete/failure with notes.",
+        "Customer and staff UIs show a non-editable 'IVR updates' section on booking details showing recent call task entries."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useIVR.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for loading IVR tasks and updating IVR task status, and helpers to filter tasks by booking ID for detail pages."
+        },
+        {
+          "path": "frontend/src/pages/admin/IVRSettingsPage.tsx",
+          "operation": "create",
+          "description": "Create an admin IVR Settings page UI for provider name, IVR number, and webhook secret/token (stored via backend capabilities if available; otherwise clearly show demo-mode local-only behavior). Use shadcn-ui form components to compose the UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/admin/IVRTasksPage.tsx",
+          "operation": "create",
+          "description": "Create an admin call task queue page listing tasks with status (Queued/Sent/Failed) and admin controls to mark tasks completed/failed with notes where supported, using English labels."
+        },
+        {
+          "path": "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+          "operation": "create",
+          "description": "Create a read-only IVR updates panel that shows recent call task entries associated with a booking ID, for embedding in booking/job details."
+        },
+        {
+          "path": "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Embed the non-editable IVR updates panel in customer booking details, showing recent IVR call task entries in English."
+        },
+        {
+          "path": "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "operation": "modify",
+          "description": "Embed the non-editable IVR updates panel in staff job details, showing recent IVR call task entries in English."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add Admin routing and navigation for IVR Settings and IVR Tasks pages with admin-only guards."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Apply a cohesive English-only visual theme across the app using Tailwind and composed UI components, avoiding blue/purple dominance.",
+      "acceptanceCriteria": [
+        "UI uses a consistent theme (e.g., warm neutrals/greens or charcoal/orange) across Customer/Staff/Admin sections.",
+        "Typography and spacing are consistent across screens; forms and tables are clearly legible.",
+        "All labels, buttons, validation errors, and empty states are in English.",
+        "Theme is applied consistently using Tailwind and existing UI components (without editing immutable UI component sources)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global CSS variables and Tailwind base styles to establish a warm charcoal/amber/neutral theme (avoid blue/purple as dominant), plus consistent typography and spacing defaults."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme tokens (if needed) to align with the charcoal/amber palette and ensure consistent styling across composed shadcn-ui components without modifying immutable component sources."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Update layout styling for consistent header/sidebar patterns across modules using the new theme tokens and English navigation labels."
+        }
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "summary": "Add generated brand and category images as static frontend assets and use them in the header/login and category tiles.",
+      "acceptanceCriteria": [
+        "All required generated images are present in frontend/public/assets/generated with the specified filenames.",
+        "Customer browsing screens display the category icons.",
+        "App header/login screen displays the logo.",
+        "No backend endpoints are used to serve these images."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/servicehub-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated logo asset at frontend/public/assets/generated/servicehub-logo.dim_512x512.png for direct frontend use."
+        },
+        {
+          "path": "frontend/public/assets/generated/cat-plumber.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated category icon asset at frontend/public/assets/generated/cat-plumber.dim_256x256.png for direct frontend use."
+        },
+        {
+          "path": "frontend/public/assets/generated/cat-electrician.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated category icon asset at frontend/public/assets/generated/cat-electrician.dim_256x256.png for direct frontend use."
+        },
+        {
+          "path": "frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated category icon asset at frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png for direct frontend use."
+        },
+        {
+          "path": "frontend/public/assets/generated/cat-pest-control.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated category icon asset at frontend/public/assets/generated/cat-pest-control.dim_256x256.png for direct frontend use."
+        },
+        {
+          "path": "frontend/public/assets/generated/cat-car-wash.dim_256x256.png",
+          "operation": "create",
+          "description": "Add the generated category icon asset at frontend/public/assets/generated/cat-car-wash.dim_256x256.png for direct frontend use."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Render the app logo in the header using the static asset at frontend/public/assets/generated/servicehub-logo.dim_512x512.png."
+        },
+        {
+          "path": "frontend/src/pages/customer/CatalogPage.tsx",
+          "operation": "modify",
+          "description": "Display category tiles with icons sourced from frontend/public/assets/generated/cat-plumber.dim_256x256.png, frontend/public/assets/generated/cat-electrician.dim_256x256.png, frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png, frontend/public/assets/generated/cat-pest-control.dim_256x256.png, and frontend/public/assets/generated/cat-car-wash.dim_256x256.png."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginPanel.tsx",
+          "operation": "modify",
+          "description": "Display the logo on the login/sign-in screen using the static asset at frontend/public/assets/generated/servicehub-logo.dim_512x512.png."
+        }
+      ]
+    }
+  ]
+}

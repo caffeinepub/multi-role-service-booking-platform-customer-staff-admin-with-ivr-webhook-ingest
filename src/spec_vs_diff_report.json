@@ -1,0 +1,188 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T06:55:45.485Z",
+  "summary": "Diff adds a Motoko backend actor with core domain types (profiles, bookings, categories, plans, payments, feedback, support tickets, IVR tasks) and a React+TS frontend using Internet Identity, React Query, and TanStack Router with Customer/Staff/Admin pages and UI components for OTP demo, timelines, ratings, IVR tasks/settings, admin dashboards, etc. However, multiple BuildRequest acceptance criteria are either not evidenced in the diff or appear incomplete/contradicted (e.g., route-role guarding, OTP expiry/attempt limits, category/plan disable, allocation suggestions, payment reconciliation fields, IVR settings storage in backend, etc.).",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Navigation must be guarded by role and login state; authenticated users without required role cannot access protected routes and should see an access-denied message with a way to return.",
+      "reason": "While an AccessDeniedScreen component exists, the provided App.tsx route definitions shown do not demonstrate per-route role guards or redirection to AccessDeniedScreen for wrong-role access (only unauthenticated->LoginPage and no-profile->ProfileSetupPage are shown).",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AccessDeniedScreen.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend OTP must have expiration time and attempt limit; UI should display backend-generated OTP in demo mode and verify it; errors on failure.",
+      "reason": "Backend shows a MobileVerificationData type with only expectedCode and creationTime, and OTP generation appears hardcoded (generateRandom4DigitCode returns 1234). No evidence of expiration enforcement or attempt-limit tracking. UI hardcodes OTP as '1234' rather than displaying a backend-returned demo OTP.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/verification/MobileVerificationCard.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Admin can create/update/disable service categories and subscription plans; disabled items are not selectable for new bookings.",
+      "reason": "ServiceCategory and SubscriptionPlan types shown have no 'disabled'/'active' flag, and the admin UI shown only supports creation (no update/disable flows are evidenced).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/admin/ManageServicesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Booking form includes service category, customer name (prefilled), address, preferred time slot, and optional notes; backend stores booking with initial status; UI displays created booking ID and details; booking blocked without verified mobile.",
+      "reason": "Backend BookingRequest and Booking types shown do not include customer name or optional notes fields. (Booking pages are referenced but their implementations are not included in the diff excerpt, so the UI-side ACs cannot be verified from provided evidence.)",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Staff job details must include customer contact (mobile), address, requested service, and customer booking history; staff can update status through allowed transitions and updates reflect on customer details.",
+      "reason": "Although staff pages are routed, the provided evidence does not show staff job details including customer mobile/history nor any allowed-transition enforcement for status updates (backend/FE logic not evidenced in shown snippets).",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Admin can list/search customers and staff profiles; assign/unassign staff to a booking; view dashboard table of bookings by status (counts and quick filters); admin actions require admin role.",
+      "reason": "Admin dashboard counts are shown, and allocation page exists, but there is no evidence of backend role enforcement for admin-only actions or of user search/list functionality in the provided excerpts. Allocation UI shown requires manually entering a staff Principal, and no unassign flow is evidenced.",
+      "evidence": [
+        "frontend/src/pages/admin/AdminDashboardPage.tsx",
+        "frontend/src/pages/admin/BookingAllocationPage.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Backend allocation helper suggests staff for a booking based on availability and zone; staff profiles include zone and availability; admin assignment UI shows suggested staff list.",
+      "reason": "UserProfile includes a zone field, but no availability flag/schedule indicator is evidenced in the shown UserProfile type. No backend method for suggested staff is shown, and the admin allocation UI shown does not call a suggestion method (it derives 'staff' from already-assigned bookings).",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/admin/BookingAllocationPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Support & Feedback: customer can submit tickets with category/message/optional booking reference; ratings linked to completed bookings and assigned staff; admin can review and export these records.",
+      "reason": "SupportTicket type shown contains only customerId/message/status (no category or booking reference). Feedback type shown contains bookingId/rating/comments but no linkage to assigned staff and no evidence of gating to 'completed' bookings. No export functionality is evidenced in admin UI.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+        "frontend/src/components/feedback/LeaveRatingCard.tsx"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Payment tracking includes method/amount/status/timestamps and reconciliation notes; admin can mark payments reconciled and add notes; customer/staff can view payment status; subscription renewals represented with renewal date/status and admin can advance manually (demo).",
+      "reason": "Payment type shown lacks timestamps and reconciliation notes/reconciled flag. Admin UI shown updates status but does not show reconciliation notes/mark-reconciled behavior. No evidence is shown for customer/staff payment visibility or subscription purchase records with renewal date/status and admin manual advancement.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/pages/admin/PaymentsPage.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "IVR webhook backend endpoint accepts authenticated booking creation/updates; validates mobile is registered+verified; stores IVR-origin metadata on booking; returns explicit error if invalid.",
+      "reason": "Types for IVR booking exist, but no evidence of an authenticated webhook-style backend method, mobile verification validation for IVR, or booking source metadata is included in the provided backend excerpt.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "requirement": "IVR call task queue management: backend creates tasks on booking create/update; admin configures IVR settings stored in backend (provider, number, webhook secret); admin can mark tasks complete/failed with notes; customer/staff booking details show IVR updates section.",
+      "reason": "Admin IVR Settings page explicitly stores settings in localStorage (not backend). IVRTask type shown has no 'notes' field. IvrUpdatesPanel exists, but it queries all tasks without showing 'recent entries' semantics and there is no evidence tasks are created automatically on booking events in backend.",
+      "evidence": [
+        "frontend/src/pages/admin/IVRSettingsPage.tsx",
+        "backend/main.mo",
+        "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+        "frontend/src/pages/admin/IVRTasksPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "requirement": "Backend security: role checks on all mutation methods; input validation (mobile normalization); OTP not returned except dedicated demo response; stable-compatible storage patterns.",
+      "reason": "Backend excerpt shows in-memory Maps and includes authorization-related imports, but does not provide evidence of role checks on all mutations, mobile normalization/format validation, or stable (upgrade-safe) state (e.g., stable vars/types). OTP handling also appears hardcoded in code/UI, and no dedicated demo-OTP response is evidenced in the excerpt.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/verification/MobileVerificationCard.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Use of a secret URL parameter 'caffeineAdminToken' to initialize access control via actor._initializeAccessControlWithSecret().",
+      "reason": "BuildRequest does not specify any admin-token URL parameter bootstrap mechanism; authentication is required to be via Internet Identity with application-level roles.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "IVR Settings stored in browser localStorage with provider options explicitly including 'Twilio' and 'Exotel'.",
+      "reason": "REQ-13 requires IVR settings to be stored/configured in the backend admin page; also constraints specify no direct Twilio/Exotel integration—this UI introduces provider-specific naming and stores settings client-side only.",
+      "evidence": [
+        "frontend/src/pages/admin/IVRSettingsPage.tsx"
+      ]
+    },
+    {
+      "description": "Payment method option includes 'Cash'.",
+      "reason": "REQ-11 specifies method examples UPI/card/wallet; adding Cash is not requested.",
+      "evidence": [
+        "frontend/src/pages/admin/PaymentsPage.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AccessDeniedScreen.tsx",
+    "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+    "frontend/src/components/feedback/LeaveRatingCard.tsx",
+    "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+    "frontend/src/components/layout/AppShell.tsx",
+    "frontend/src/components/verification/MobileVerificationCard.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/admin/AdminDashboardPage.tsx",
+    "frontend/src/pages/admin/BookingAllocationPage.tsx",
+    "frontend/src/pages/admin/IVRSettingsPage.tsx",
+    "frontend/src/pages/admin/IVRTasksPage.tsx",
+    "frontend/src/pages/admin/ManageServicesPage.tsx",
+    "frontend/src/pages/admin/PaymentsPage.tsx",
+    "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+    "frontend/src/pages/admin/UsersPage.tsx",
+    "frontend/src/pages/customer/BookServicePage.tsx",
+    "frontend/src/pages/customer/BookingConfirmationPage.tsx",
+    "frontend/src/pages/customer/BookingDetailsPage.tsx",
+    "frontend/src/pages/customer/CatalogPage.tsx",
+    "frontend/src/pages/customer/CustomerDashboard.tsx",
+    "frontend/src/pages/customer/MyBookingsPage.tsx",
+    "frontend/src/pages/customer/SubscriptionsPage.tsx",
+    "frontend/src/pages/customer/SupportPage.tsx",
+    "frontend/src/pages/shared/LoginPage.tsx",
+    "frontend/src/pages/shared/ProfileSetupPage.tsx",
+    "frontend/src/pages/staff/JobDetailsPage.tsx",
+    "frontend/src/pages/staff/StaffDashboard.tsx",
+    "frontend/src/pages/staff/StaffJobsPage.tsx",
+    "frontend/src/pages/staff/StaffSchedulePage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

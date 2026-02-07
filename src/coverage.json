@@ -1,0 +1,409 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T06:55:45.488Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 16,
+    "implemented": 13,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Create a role-based web app with three modules (Customer, Employee/Staff, Admin) accessible from a single React UI, with navigation guarded by role and login state.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/routes/routes.tsx",
+          "frontend/src/components/auth/ProtectedRoute.tsx",
+          "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "frontend/src/components/layout/AppShell.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "frontend/src/components/layout/AppShell.tsx"
+        ]
+      },
+      {
+        "id": "REQ-10",
+        "summary": "Add Support & Feedback: customers can submit support tickets/feedback; staff can receive ratings/feedback linked to completed bookings; admin can review and export these records.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useSupport.ts",
+          "frontend/src/hooks/useFeedback.ts",
+          "frontend/src/pages/customer/SupportPage.tsx",
+          "frontend/src/components/feedback/LeaveRatingCard.tsx",
+          "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/customer/SupportPage.tsx",
+          "frontend/src/components/feedback/LeaveRatingCard.tsx",
+          "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Implement payment tracking and reconciliation records for bookings and subscriptions (without external payment gateway dependency): record payment method (UPI/card/wallet), amount, status, and reconciliation notes; allow admin updates.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/usePayments.ts",
+          "frontend/src/components/payments/PaymentStatusBadge.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/pages/admin/PaymentsPage.tsx",
+          "frontend/src/pages/customer/SubscriptionsPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/pages/admin/PaymentsPage.tsx",
+          "frontend/src/pages/customer/SubscriptionsPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Add IVR integration endpoints: accept booking creation/updates from an external IVR provider via authenticated HTTP calls to the backend, validate the provided mobile number against registered customers, and create bookings using the IVR flow fields.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Implement IVR 'call task' queue management in the backend and admin UI: whenever a booking is created/updated, create call tasks for reminders/updates; admin can configure basic IVR settings and mark tasks as completed/failed (no external calling integration required).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useIVR.ts",
+          "frontend/src/pages/admin/IVRSettingsPage.tsx",
+          "frontend/src/pages/admin/IVRTasksPage.tsx",
+          "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/admin/IVRSettingsPage.tsx",
+          "frontend/src/pages/admin/IVRTasksPage.tsx",
+          "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Implement basic security measures: role checks on all backend methods, input validation, and at-rest storage patterns suitable for Motoko stable data; ensure sensitive fields (like OTP) are not returned except in the explicitly labeled demo OTP flow.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Apply a coherent, distinctive visual theme across the UI (colors, typography, layout) suitable for a service-booking business dashboard + consumer app; avoid blue/purple as dominant colors; ensure all user-facing strings are in English.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/components/layout/AppShell.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/components/layout/AppShell.tsx"
+        ]
+      },
+      {
+        "id": "REQ-16",
+        "summary": "Add static generated brand and category imagery as frontend assets and use them in the UI (home/category tiles, admin header). Store assets under frontend/public/assets/generated and reference them directly from the frontend.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/servicehub-logo.dim_512x512.png",
+          "frontend/public/assets/generated/cat-plumber.dim_256x256.png",
+          "frontend/public/assets/generated/cat-electrician.dim_256x256.png",
+          "frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png",
+          "frontend/public/assets/generated/cat-pest-control.dim_256x256.png",
+          "frontend/public/assets/generated/cat-car-wash.dim_256x256.png",
+          "frontend/src/components/layout/AppShell.tsx",
+          "frontend/src/pages/customer/CatalogPage.tsx",
+          "frontend/src/components/auth/LoginPanel.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/servicehub-logo.dim_512x512.png",
+          "frontend/public/assets/generated/cat-plumber.dim_256x256.png",
+          "frontend/public/assets/generated/cat-electrician.dim_256x256.png",
+          "frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png",
+          "frontend/public/assets/generated/cat-pest-control.dim_256x256.png",
+          "frontend/public/assets/generated/cat-car-wash.dim_256x256.png",
+          "frontend/src/components/layout/AppShell.tsx",
+          "frontend/src/pages/customer/CatalogPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Implement authentication using Internet Identity and add application-level profiles that store a user’s mobile number and role (customer/staff/admin). Require a verified mobile number on the profile before allowing service booking.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/auth/LoginPanel.tsx",
+          "frontend/src/hooks/useCurrentUserProfile.ts",
+          "frontend/src/hooks/useUserRole.ts",
+          "frontend/src/pages/shared/ProfileSetupPage.tsx",
+          "frontend/src/pages/customer/BookServicePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/shared/ProfileSetupPage.tsx",
+          "frontend/src/pages/customer/BookServicePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Provide a mobile-number OTP verification flow that works without external SMS providers by using a development-only OTP mechanism: generate an OTP in the backend and display it in the UI for verification (clearly labeled as a demo/dev mode).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/verification/MobileVerificationCard.tsx",
+          "frontend/src/hooks/useMobileVerification.ts",
+          "frontend/src/pages/shared/ProfileSetupPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/verification/MobileVerificationCard.tsx",
+          "frontend/src/pages/shared/ProfileSetupPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Create data models and CRUD for subscription plans and service categories (plumber, electrician, electronic repair, pest control, car wash) and expose them in the Customer module for browsing.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useCatalog.ts",
+          "frontend/src/pages/customer/CatalogPage.tsx",
+          "frontend/src/pages/admin/ManageServicesPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/customer/CatalogPage.tsx",
+          "frontend/src/pages/admin/ManageServicesPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Implement service booking: customers can book a service by selecting category, entering address details, choosing a preferred time slot, and confirming; booking requires a mobile-verified customer profile.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useBookings.ts",
+          "frontend/src/pages/customer/BookServicePage.tsx",
+          "frontend/src/pages/customer/BookingConfirmationPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/customer/BookServicePage.tsx",
+          "frontend/src/pages/customer/BookingConfirmationPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Implement customer booking views: upcoming bookings and service history with status timeline and details per booking.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/customer/MyBookingsPage.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/customer/MyBookingsPage.tsx",
+          "frontend/src/pages/customer/BookingDetailsPage.tsx",
+          "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Implement Staff module: staff users can view assigned jobs, a schedule view, job details (including customer details/history), and can update job/service status.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/staff/StaffJobsPage.tsx",
+          "frontend/src/pages/staff/StaffSchedulePage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/hooks/useStaff.ts",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/staff/StaffJobsPage.tsx",
+          "frontend/src/pages/staff/StaffSchedulePage.tsx",
+          "frontend/src/pages/staff/JobDetailsPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Implement Admin panel features for business control: manage customers, staff, services, subscriptions; allocate bookings to staff; and monitor overall booking pipeline.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/admin/AdminDashboardPage.tsx",
+          "frontend/src/pages/admin/UsersPage.tsx",
+          "frontend/src/pages/admin/BookingAllocationPage.tsx",
+          "frontend/src/hooks/useAdmin.ts",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/admin/AdminDashboardPage.tsx",
+          "frontend/src/pages/admin/UsersPage.tsx",
+          "frontend/src/pages/admin/BookingAllocationPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Implement a backend allocation helper that suggests staff for a booking based on availability and (simple) location matching, where location is captured as a text area/zone label in both staff profile and booking address.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/authorization/MixinAuthorization.mo",
+    "backend/authorization/access-control.mo",
+    "backend/main.mo",
+    "build-request.json",
+    "build-template/Dockerfile",
+    "build-template/LICENSE",
+    "build-template/README.md",
+    "build-template/deploy.sh",
+    "build-template/icp.yaml",
+    "build-template/package.json",
+    "build-template/pnpm-lock.yaml",
+    "build-template/pnpm-workspace.yaml",
+    "build-template/scripts/prune-unused-images.js",
+    "build-template/scripts/resize-images.js",
+    "build-template/src/backend/canister.yaml",
+    "build-template/src/backend/system-idl/aaaaa-aa.did",
+    "build-template/src/frontend/canister.yaml",
+    "build-template/src/frontend/components.json",
+    "build-template/src/frontend/env.json",
+    "build-template/src/frontend/eslint-rules/no-bigint-in-query-keys.js",
+    "build-template/src/frontend/eslint-rules/require-internet-identity-provider.js",
+    "build-template/src/frontend/eslint.config.js",
+    "build-template/src/frontend/package.json",
+    "build-template/src/frontend/postcss.config.js",
+    "build-template/src/frontend/src/components/ui/accordion.tsx",
+    "build-template/src/frontend/src/components/ui/alert-dialog.tsx",
+    "build-template/src/frontend/src/components/ui/alert.tsx",
+    "build-template/src/frontend/src/components/ui/aspect-ratio.tsx",
+    "build-template/src/frontend/src/components/ui/avatar.tsx",
+    "build-template/src/frontend/src/components/ui/badge.tsx",
+    "build-template/src/frontend/src/components/ui/breadcrumb.tsx",
+    "build-template/src/frontend/src/components/ui/button.tsx",
+    "build-template/src/frontend/src/components/ui/calendar.tsx",
+    "build-template/src/frontend/src/components/ui/card.tsx",
+    "build-template/src/frontend/src/components/ui/carousel.tsx",
+    "build-template/src/frontend/src/components/ui/chart.tsx",
+    "build-template/src/frontend/src/components/ui/checkbox.tsx",
+    "build-template/src/frontend/src/components/ui/collapsible.tsx",
+    "build-template/src/frontend/src/components/ui/command.tsx",
+    "build-template/src/frontend/src/components/ui/context-menu.tsx",
+    "build-template/src/frontend/src/components/ui/dialog.tsx",
+    "build-template/src/frontend/src/components/ui/drawer.tsx",
+    "build-template/src/frontend/src/components/ui/dropdown-menu.tsx",
+    "build-template/src/frontend/src/components/ui/form.tsx",
+    "build-template/src/frontend/src/components/ui/hover-card.tsx",
+    "build-template/src/frontend/src/components/ui/input-otp.tsx",
+    "build-template/src/frontend/src/components/ui/input.tsx",
+    "build-template/src/frontend/src/components/ui/label.tsx",
+    "build-template/src/frontend/src/components/ui/menubar.tsx",
+    "build-template/src/frontend/src/components/ui/navigation-menu.tsx",
+    "build-template/src/frontend/src/components/ui/pagination.tsx",
+    "build-template/src/frontend/src/components/ui/popover.tsx",
+    "build-template/src/frontend/src/components/ui/progress.tsx",
+    "build-template/src/frontend/src/components/ui/radio-group.tsx",
+    "build-template/src/frontend/src/components/ui/resizable.tsx",
+    "build-template/src/frontend/src/components/ui/scroll-area.tsx",
+    "build-template/src/frontend/src/components/ui/select.tsx",
+    "build-template/src/frontend/src/components/ui/separator.tsx",
+    "build-template/src/frontend/src/components/ui/sheet.tsx",
+    "build-template/src/frontend/src/components/ui/sidebar.tsx",
+    "build-template/src/frontend/src/components/ui/skeleton.tsx",
+    "build-template/src/frontend/src/components/ui/slider.tsx",
+    "build-template/src/frontend/src/components/ui/sonner.tsx",
+    "build-template/src/frontend/src/components/ui/switch.tsx",
+    "build-template/src/frontend/src/components/ui/table.tsx",
+    "build-template/src/frontend/src/components/ui/tabs.tsx",
+    "build-template/src/frontend/src/components/ui/textarea.tsx",
+    "build-template/src/frontend/src/components/ui/toggle-group.tsx",
+    "build-template/src/frontend/src/components/ui/toggle.tsx",
+    "build-template/src/frontend/src/components/ui/tooltip.tsx",
+    "build-template/src/frontend/src/hooks/use-mobile.tsx",
+    "build-template/src/frontend/src/lib/utils.ts",
+    "build-template/src/frontend/tsconfig.json",
+    "build-template/src/frontend/vite.config.js",
+    "build-template/tsconfig.json",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/public/assets/generated/cat-car-wash.dim_256x256.png",
+    "frontend/public/assets/generated/cat-electrician.dim_256x256.png",
+    "frontend/public/assets/generated/cat-electronics-repair.dim_256x256.png",
+    "frontend/public/assets/generated/cat-pest-control.dim_256x256.png",
+    "frontend/public/assets/generated/cat-plumber.dim_256x256.png",
+    "frontend/public/assets/generated/servicehub-logo.dim_512x512.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/auth/AccessDeniedScreen.tsx",
+    "frontend/src/components/bookings/BookingStatusTimeline.tsx",
+    "frontend/src/components/feedback/LeaveRatingCard.tsx",
+    "frontend/src/components/ivr/IvrUpdatesPanel.tsx",
+    "frontend/src/components/layout/AppShell.tsx",
+    "frontend/src/components/verification/MobileVerificationCard.tsx",
+    "frontend/src/config.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/admin/AdminDashboardPage.tsx",
+    "frontend/src/pages/admin/BookingAllocationPage.tsx",
+    "frontend/src/pages/admin/IVRSettingsPage.tsx",
+    "frontend/src/pages/admin/IVRTasksPage.tsx",
+    "frontend/src/pages/admin/ManageServicesPage.tsx",
+    "frontend/src/pages/admin/PaymentsPage.tsx",
+    "frontend/src/pages/admin/SupportAndFeedbackPage.tsx",
+    "frontend/src/pages/admin/UsersPage.tsx",
+    "frontend/src/pages/customer/BookServicePage.tsx",
+    "frontend/src/pages/customer/BookingConfirmationPage.tsx",
+    "frontend/src/pages/customer/BookingDetailsPage.tsx",
+    "frontend/src/pages/customer/CatalogPage.tsx",
+    "frontend/src/pages/customer/CustomerDashboard.tsx",
+    "frontend/src/pages/customer/MyBookingsPage.tsx",
+    "frontend/src/pages/customer/SubscriptionsPage.tsx",
+    "frontend/src/pages/customer/SupportPage.tsx",
+    "frontend/src/pages/shared/LoginPage.tsx",
+    "frontend/src/pages/shared/ProfileSetupPage.tsx",
+    "frontend/src/pages/staff/JobDetailsPage.tsx",
+    "frontend/src/pages/staff/StaffDashboard.tsx",
+    "frontend/src/pages/staff/StaffJobsPage.tsx",
+    "frontend/src/pages/staff/StaffSchedulePage.tsx",
+    "frontend/src/ui-summary.json",
+    "frontend/src/utils/StorageClient.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
